@@ -6,13 +6,11 @@ url = "https://getlatka.com/?page={}"
 page = requests.get(url.format(page_no))
 
 soup = BeautifulSoup(page.content, "lxml")
-arr = []
 columns =[]
 header = soup.find(class_="data-table_header__2WB0s")
 # finding the names of each column in the table
 for i in header.findAll('th'):
     columns.append(i.text)
-print(columns)
 df =  pd.DataFrame(columns=columns[1:])
 
 #iterating over each page until there is no more pages further
@@ -30,6 +28,7 @@ while True:
     page = requests.get(url.format(page_no))
 
     soup = BeautifulSoup(page.content, "lxml")
+    
 #converting dataframe "df" to json file
 df.to_json('./output.json', orient='index')
 
